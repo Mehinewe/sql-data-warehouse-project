@@ -21,23 +21,18 @@ This includes:
 ### 🧾 Specification  
 
 #### 🗂️ Data Source  
-- **bank_customers_CO_messy.csv** – Customer profiles and demographics  
-- **bank_accounts_CO_messy.csv** – Account details, balances, credit limits  
-- **bank_transactions_CO_messy.csv** – Transaction history and channels  
-- **bank_products_CO_messy.csv** – Financial products and status  
-- **bank_branches_CO_messy.csv** – Branch performance across Colorado  
+The data is from three source systems ( ERP, CBS and CRM)
+
+- **customers_crm.csv** – Customer profiles and demographics  
+- **accounts_cbs.csv** – Account details, balances, credit limits  
+- **transactions_cbs.csv** – Transaction history and channels  
+- **products_cbs.csv** – Financial products and status  
+- **branches_erp.csv** – Branch performance across Colorado  
 
 > *All datasets are synthetic but modeled on real-world banking structures.*  
 
 #### 🧹 Data Quality  
-The data includes intentional inconsistencies such as:  
-- Missing values and duplicates  
-- Inconsistent casing and typos  
-- Invalid or mixed date formats  
-- Negative or unrealistic numerical values  
-- Foreign key mismatches between tables  
-
-These imperfections simulate real-life corporate datasets and provide hands-on experience in **data cleaning and validation**.  
+We have to clean and resolve data quality issues prior to analysis.  
 
 #### 🔗 Integrations  
 The cleaned datasets are integrated using SQL joins across entities:  
