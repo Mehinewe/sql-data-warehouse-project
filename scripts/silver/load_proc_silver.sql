@@ -109,3 +109,147 @@ ELSE (
 	)
 	END AS merchant_category
 FROM bronze.cbs_transactions;
+
+
+
+INSERT INTO silver.crm_customers (
+customer_id,
+name ,
+gender ,
+age ,
+city ,
+annual_income ,
+primary_account_type ,
+join_date ,
+marital_status ,
+employment_status
+)
+
+
+
+SELECT
+customer_id,
+name ,
+CASE WHEN UPPER(TRIM(gender)) = 'F' THEN 'Female'
+	 WHEN UPPER(TRIM(gender)) = 'FEMALE' THEN 'Female'
+	 WHEN UPPER(TRIM(gender)) = 'M' THEN 'Male'
+	 WHEN UPPER(TRIM(gender)) = 'Male' THEN 'Male'
+	 WHEN UPPER(TRIM(gender)) = 'Other' THEN 'Other'
+	 ELSE 'n/a'
+END AS gender,
+CASE WHEN age IS NULL THEN '0'
+	 ELSE age
+END AS age,
+CASE WHEN UPPER(TRIM(city)) = 'Arvada' THEN 'Arvada'
+	 WHEN UPPER(TRIM(city)) = 'Aurora' THEN 'Aurora'
+	 WHEN UPPER(TRIM(city)) = 'Boulder' THEN 'Boulder'
+	 WHEN UPPER(TRIM(city)) = 'Brighton' THEN 'Brighton'
+	 WHEN UPPER(TRIM(city)) IN ( 'castle rock', 'CastleRock') THEN 'Castle Rock'
+	 WHEN UPPER(TRIM(city)) = 'Centennial' THEN 'Centennial'
+	 WHEN UPPER(TRIM(city)) IN ( 'COLORADO SPRINGS', 'ColoradoSprings', 'Coloraod') THEN 'Colorado Springs'
+	 WHEN UPPER(TRIM(city)) IN ( 'Commerce City', 'CommerceCity') THEN 'Commerce City'
+	 WHEN UPPER(TRIM(city)) = 'Denver' THEN 'Denver'
+	 WHEN UPPER(TRIM(city)) = 'Englewood' THEN 'Englewood'
+	 WHEN UPPER(TRIM(city)) IN ( 'Fort Collins', 'FortCollins') THEN 'Fort Collins'
+	 WHEN UPPER(TRIM(city)) = 'Greeley' THEN 'Greeley'
+	 WHEN UPPER(TRIM(city)) IN ( 'HIGHLANDS RANCH', 'HighlandsRanch') THEN 'Highlands Ranch'
+	 WHEN UPPER(TRIM(city)) = 'Lakewood' THEN 'Lakewood'
+	 WHEN UPPER(TRIM(city)) = 'Littleton' THEN 'Littleton'
+	 WHEN UPPER(TRIM(city)) = 'longmont' THEN 'Longmont'
+	 WHEN UPPER(TRIM(city)) = 'Loveland' THEN 'Loveland'
+	 WHEN UPPER(TRIM(city)) = 'Pueblo' THEN 'Pueblo'
+	 WHEN UPPER(TRIM(city)) = 'thornton' THEN 'Thornton'
+	 WHEN UPPER(TRIM(city)) = 'westminster' THEN 'Westminster'
+	 WHEN city IS NULL THEN 'n/a'
+	 ELSE TRIM(city)
+END AS city,
+CASE WHEN annual_income = 'not available'  OR annual_income IS NULL THEN '0'
+	 WHEN annual_income LIKE '"%' AND primary_account_type LIKE '%"' THEN 
+																	CONCAT(
+																	REPLACE(annual_income, '"', '') 
+																	, REPLACE(primary_account_type, '"', '')
+																	 )
+	 ELSE annual_income
+END AS annual_income,
+CASE WHEN UPPER(TRIM(primary_account_type)) = 'Business' THEN 'Business'
+	 WHEN UPPER(TRIM(primary_account_type)) IN ('Checking', 'CHK')  THEN 'Checking'
+	 WHEN UPPER(TRIM(primary_account_type)) = 'Premium' THEN 'Premium'
+	 WHEN UPPER(TRIM(primary_account_type)) IN ('SAVINGS', 'SVG')  THEN 'Savings'
+	 WHEN primary_account_type IS NULL THEN 'n/a'
+	 ELSE -- Some join_date has the account type data
+		CASE WHEN UPPER(TRIM(join_date)) = 'Business' THEN 'Business'
+			 WHEN UPPER(TRIM(join_date)) IN ('Checking', 'CHK')  THEN 'Checking'
+			 WHEN UPPER(TRIM(join_date)) = 'Premium' THEN 'Premium'
+			 WHEN UPPER(TRIM(join_date)) IN ('SAVINGS', 'SVG')  THEN 'Savings'
+			 ELSE primary_account_type
+		END
+END AS primary_account_type,
+CASE WHEN join_date LIKE '%/%' THEN TRY_CONVERT (DATE, join_date, 101)
+	 WHEN join_date IN ('CHECKING', 'CHK','Premium', 'SAVINGS', 'SVG') THEN TRY_CONVERT (DATE, marital_status, 101)
+	 ELSE NULL 
+END AS join_date ,
+CASE WHEN UPPER(TRIM(employment_status)) LIKE 'Divorced%' THEN 'Divorced'
+	 WHEN UPPER(TRIM(employment_status)) LIKE 'Married%' THEN 'Married'
+	 WHEN UPPER(TRIM(employment_status)) LIKE 'Single%' THEN 'Single'
+	 WHEN UPPER(TRIM(employment_status)) LIKE 'Widow%' THEN 'Widowed'
+	 WHEN UPPER(TRIM(employment_status)) LIKE 'Unknown%' THEN 'n/a'
+	 WHEN marital_status IS NULL THEN 'n/a'
+	 ELSE marital_status
+END AS marital_status ,
+CASE WHEN UPPER(TRIM(employment_status)) LIKE '%EMPLOYED' THEN 'Employed'
+	 WHEN UPPER(TRIM(employment_status)) LIKE '%Retired' THEN 'Retired'
+	 WHEN UPPER(TRIM(employment_status)) LIKE '%Student' THEN 'Student'
+	 WHEN UPPER(TRIM(employment_status)) LIKE '%Self-employed' THEN 'Self-employed'
+	 WHEN UPPER(TRIM(employment_status)) LIKE '%Unemployed' THEN 'Unemployed'
+	 WHEN UPPER(TRIM(employment_status)) LIKE '%Part-time' THEN 'Employed'
+	 WHEN UPPER(TRIM(employment_status)) LIKE '%,Retired' THEN ',Retired'
+	 ELSE 'n/a'
+END AS employment_status
+FROM bronze.crm_customers;
+
+
+
+
+
+INSERT INTO silver.erp_branches (
+branch_id ,
+city ,
+num_customers ,
+manager_name 
+)
+
+
+
+SELECT
+branch_id ,
+CASE WHEN UPPER(TRIM(city)) = 'Arvada' THEN 'Arvada'
+	 WHEN UPPER(TRIM(city)) = 'Aurora' THEN 'Aurora'
+	 WHEN UPPER(TRIM(city)) = 'Boulder' THEN 'Boulder'
+	 WHEN UPPER(TRIM(city)) = 'Brighton' THEN 'Brighton'
+	 WHEN UPPER(TRIM(city)) IN ( 'castle rock', 'CastleRock') THEN 'Castle Rock'
+	 WHEN UPPER(TRIM(city)) = 'Centennial' THEN 'Centennial'
+	 WHEN UPPER(TRIM(city)) IN ( 'COLORADO SPRINGS', 'ColoradoSprings', 'Coloraod') THEN 'Colorado Springs'
+	 WHEN UPPER(TRIM(city)) IN ( 'Commerce City', 'CommerceCity') THEN 'Commerce City'
+	 WHEN UPPER(TRIM(city)) = 'Denver' THEN 'Denver'
+	 WHEN UPPER(TRIM(city)) = 'Englewood' THEN 'Englewood'
+	 WHEN UPPER(TRIM(city)) IN ( 'Fort Collins', 'FortCollins') THEN 'Fort Collins'
+	 WHEN UPPER(TRIM(city)) = 'Greeley' THEN 'Greeley'
+	 WHEN UPPER(TRIM(city)) IN ( 'HIGHLANDS RANCH', 'HighlandsRanch') THEN 'Highlands Ranch'
+	 WHEN UPPER(TRIM(city)) = 'Lakewood' THEN 'Lakewood'
+	 WHEN UPPER(TRIM(city)) = 'Littleton' THEN 'Littleton'
+	 WHEN UPPER(TRIM(city)) = 'longmont' THEN 'Longmont'
+	 WHEN UPPER(TRIM(city)) = 'Loveland' THEN 'Loveland'
+	 WHEN UPPER(TRIM(city)) = 'Pueblo' THEN 'Pueblo'
+	 WHEN UPPER(TRIM(city)) = 'thornton' THEN 'Thornton'
+	 WHEN UPPER(TRIM(city)) = 'westminster' THEN 'Westminster'
+	 WHEN city IS NULL THEN 'n/a'
+	 ELSE TRIM(city)
+END AS city,
+CASE WHEN num_customers LIKE '%[^0-9]%' THEN '0'
+	 WHEN num_customers IS NULL THEN '0'
+	 ELSE TRIM(num_customers)
+END AS num_customers,
+CASE WHEN manager_name LIKE 'Mgr%' THEN manager_name
+	 ELSE 'n/a'
+END AS manager_name
+FROM bronze.erp_branches;
