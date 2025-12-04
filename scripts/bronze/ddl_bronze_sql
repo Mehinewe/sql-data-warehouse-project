@@ -1,43 +1,75 @@
-/* 
-==================================================================
-Create Database and Schemas
-==================================================================
-Script Purpose :
-	This script creates a new database named 'DataWarehouse' after checking if it already exists.
-	If the database exists, it is dropped and recreate. Additionally, the script sets up three schemas
-	within the database : 'bronze', 'silver', 'gold'.
-
-WARNING:
-	Running this script will drop the entire 'DataWarehouse' database if it exists.
-	All data in the database will be permanently deleted. Proceed with caution
-	and ensure you heve proper backups before running this script'
-*/
-
-
-USE MASTER;
+IF OBJECT_ID('bronze.cbs_accounts' , 'U') IS NOT NULL
+	DROP TABLE bronze.cbs_accounts;
 GO
 
--- Drop and recreate the 'DataWarehouse' database
-IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'DataWarehouse')
-BEGIN
-	ALTER DATABASE DataWarehouse SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-	DROP DATABASE DataWarehouse;
-END;
+		CREATE TABLE bronze.cbs_accounts (
+			account_id NVARCHAR(5),
+			customer_id NVARCHAR(50),
+			account_type NVARCHAR(50),
+			current_balance NVARCHAR(50),
+			credit_limit NVARCHAR(50),
+			interest_rate NVARCHAR(50),
+			branch_id NVARCHAR(5)
+		);
 GO
 
--- Create Database 'DataWarehouse'
-CREATE DATABASE DataWarehouse;
+IF OBJECT_ID('bronze.cbs_products' , 'U') IS NOT NULL
+			DROP TABLE bronze.cbs_products;
 GO
 
-USE DataWarehouse;
+CREATE TABLE bronze.cbs_products (
+	product_id NVARCHAR(5),
+	customer_id	NVARCHAR(5),
+	product_name NVARCHAR(50),	
+	start_date NVARCHAR(50),
+	end_date NVARCHAR(50),
+	status NVARCHAR(50)
+		);
 GO
 
--- Create Schemas
-CREATE SCHEMA bronze;
+IF OBJECT_ID('bronze.cbs_transactions' , 'U') IS NOT NULL
+	DROP TABLE bronze.cbs_transactions;
+GO
+		CREATE TABLE bronze.cbs_transactions (
+			transaction_id NVARCHAR(5),
+			customer_id NVARCHAR(5),
+			transaction_date NVARCHAR(50),	
+			transaction_type NVARCHAR(50),
+			amount NVARCHAR(50),
+			channel NVARCHAR(50),
+			merchant_category NVARCHAR(50)
+		);
 GO
 
-CREATE SCHEMA silver;
+	
+IF OBJECT_ID('bronze.crm_customers' , 'U') IS NOT NULL
+	DROP TABLE bronze.crm_customers;
 GO
 
-CREATE SCHEMA gold;
+		CREATE TABLE bronze.crm_customers (
+			customer_id NVARCHAR(50),
+			name NVARCHAR(50),
+			gender NVARCHAR(50),
+			age INT,
+			city NVARCHAR(50),
+			annual_income NVARCHAR(50),
+			primary_account_type NVARCHAR(50),
+			join_date NVARCHAR(50),
+			marital_status NVARCHAR(50),
+			employment_status NVARCHAR(50)
+		);
+GO
+
+	
+IF OBJECT_ID('bronze.erp_branches' , 'U') IS NOT NULL
+	DROP TABLE bronze.erp_branches;
+GO
+
+
+		CREATE TABLE bronze.erp_branches (
+			branch_id NVARCHAR(5),
+			city NVARCHAR(50),
+			num_customers VARCHAR(20),
+			manager_name NVARCHAR(50)
+		);
 GO
