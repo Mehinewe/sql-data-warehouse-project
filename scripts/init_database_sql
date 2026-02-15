@@ -13,10 +13,10 @@ WARNING:
 	and ensure you heve proper backups before running this script'
 */
 
+-- Create Database 'DataWarehouse'
 
-USE MASTER;
+USE master;
 GO
-
 -- Drop and recreate the 'DataWarehouse' database
 IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'DataWarehouse')
 BEGIN
@@ -25,12 +25,10 @@ BEGIN
 END;
 GO
 
--- Create Database 'DataWarehouse'
+-- Create the 'DataWarehouse' database
 CREATE DATABASE DataWarehouse;
-GO
 
 USE DataWarehouse;
-GO
 
 -- Create Schemas
 CREATE SCHEMA bronze;
