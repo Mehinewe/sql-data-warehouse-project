@@ -1,4 +1,5 @@
-INSERT O silver.crm_cust_info ( 
+TRUNCATE TABLE silver.crm_cust_info;
+INSERT INTO silver.crm_cust_info ( 
 	cst_id,
 	cst_key,
 	cst_firstname ,
@@ -30,8 +31,8 @@ WHERE cst_id IS NOT NULL )t
 WHERE flag_last = 1; -- Select the most recent record per customer
 
 
-
-INSERT O silver.crm_prd_info  (
+TRUNCATE TABLE silver.crm_prd_info;
+INSERT INTO silver.crm_prd_info  (
 	prd_id,
 	cat_id,
 	prd_key,
@@ -96,3 +97,52 @@ CASE WHEN sls_price IS NULL OR sls_price <= 0
 	 ELSE sls_price -- Derive sales if original value is invalid
 END AS sls_price
 FROM bronze.crm_sales_details
+
+
+TRUNCATE TABLE silver.erp_cust_az12;
+INSERT INTO silver.erp_cust_az12(
+	cid	,
+	bdate ,
+	gen	
+)
+SELECT
+CASE WHEN cid LIKE 'NAS%' THEN SUBSTRING(TRIM(cid), 4, LEN(cid)) -- Remove 'NAS' prefix if present
+	 ELSE cid
+END AS cid,
+CASE WHEN bdate > GETDATE() THEN NULL
+	 ELSE bdate
+END AS bdate, -- Set future bithdate to NULL
+CASE WHEN UPPER(TRIM(gen)) IN  ('F', 'FEMALE') THEN 'Female'
+	 WHEN UPPER(TRIM(gen)) IN  ('M', 'MALE') THEN 'Male'
+	 ELSE 'n/a'
+END AS gen	-- Normalize gender values and handle unknown cases
+FROM bronze.erp_cust_az12;
+
+
+TRUNCATE TABLE silver.erp_loc_a101
+INSERT INTO silver.erp_loc_a101 ( cid, cntry )
+SELECT
+REPLACE(cid, '-','') AS cid,
+CASE WHEN TRIM(LOWER(cntry)) = 'DE' THEN 'Germany'
+	 WHEN TRIM(LOWER(cntry)) IN ('us', 'usa') THEN 'United States'
+	 WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
+	 ELSE TRIM(cntry)
+END AS cntry	 -- Normalize and Handle missing or blank country name
+FROM bronze.erp_loc_a101
+
+TRUNCATE TABLE silver.erp_px_cat_g1v2;
+INSERT INTO silver.erp_px_cat_g1v2(
+	id ,
+	cat ,
+	subcat ,
+	maintenance 
+)
+SELECT
+id	 ,
+cat	 ,
+subcat ,
+maintenance
+FROM bronze.erp_px_cat_g1v2
+
+
+
