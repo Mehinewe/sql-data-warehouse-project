@@ -1,87 +1,112 @@
-# 🏦 Colorado Bank Analytics Project  
+# Data Warehouse & Analytics Project
 
-## 👋 Welcome!  
-Welcome to my **Colorado Bank Analytics** project.  
-This end-to-end data analytics case study explores customer behavior, product performance, and transaction patterns for a fictional Colorado-based bank.  
+Welcome to my Data Warehouse and Analytics Project 🚀
+In this project, I built a complete data solution — from raw data to interactive insights.
+---
+## 🏗️ Data Architecture
 
-The dataset contains messy, realistic banking data across customers, accounts, transactions, products, and branches.  
-As the data analyst, my goal is to clean, model, and analyze this data to help the bank’s leadership make informed decisions about customer retention, profitability, fraud detection, and product strategy.  
+This project follows the Medallion Architecture with three layers: **Bronze**, **Silver**, and **Gold**:
+<img width="841" height="531" alt="Data Architecture  drawio" src="https://github.com/user-attachments/assets/381c87d3-c62e-4a8f-8511-581063b0a8a4" />
+
+1. **Bronze Layer**: Stores raw data exactly as received. Data is loaded from CSV files into SQL Server Database.
+2. **Silver Layer**: This layer includes data cleansing, standardization, and normalization processes to prepare data for analysis.
+3. **Gold Layer**: Houses business-ready data modeled into a star schema,  Ready for  analytics, reporting and dashboards.
+
+---
+## 📖 Project Overview
+
+This project involves:
+
+1. **Data Architecture**: Designing a Modern Data Warehouse Using Medallion Architecture **Bronze**, **Silver**, and **Gold** layers.
+2. **ETL Pipelines**: Extracting, transforming, and loading data from source systems into the warehouse.
+3. **Data Modeling**: Developing fact and dimension tables optimized for analytical queries.
+4. **Analytics & Reporting**: Creating SQL-based reports and dashboards for actionable insights.
+
+🎯 Skills Demonstrated
+This project highlights my ability in:
+- SQL Development
+- Data Warehousing
+- ETL Pipeline Development
+- Data Modeling (Star Schema)
+- Data Analytics & Reporting 
 
 ---
 
-## 🧩 Project Requirements  
+## 🛠️ Tools:
+- **SQL Server**
+- **Draw.io:** to Design data architecture, models, flows, and diagrams.
+- **Notion:** to plan the project phases and tasks
+- **Github:** to manage versions, and collaborate  efficiently.
 
-### 🎯 Objective  
-Build a full analytics solution that transforms messy raw data into clear insights using SQL and Power BI.  
-This includes:  
-- Cleaning and transforming data (ETL).  
-- Modeling relationships between banking entities.  
-- Delivering business insights through dashboards and reports.  
+---
 
-### 🧾 Specification  
+## 🚀 Project Requirements
 
-#### 🗂️ Data Source  
-The data is from three source systems ( ERP, CBS and CRM)
+### Building the Data Warehouse (Data Engineering)
 
-- **customers_crm.csv** – Customer profiles and demographics  
-- **accounts_cbs.csv** – Account details, balances, credit limits  
-- **transactions_cbs.csv** – Transaction history and channels  
-- **products_cbs.csv** – Financial products and status  
-- **branches_erp.csv** – Branch performance across Colorado  
+#### Objective
+Develop a modern data warehouse using SQL Server to consolidate sales data, enabling analytical reporting and informed decision-making.
 
-> *All datasets are synthetic but modeled on real-world banking structures.*  
+#### Specifications
+- **Data Sources**: Import data from two source systems (ERP and CRM) provided as CSV files.
+- **Data Quality**: Cleanse and resolve data quality issues prior to analysis.
+- **Integration**: Combine both sources into a single, user-friendly data model designed for analytical queries.
+- **Scope**: Focus on the latest dataset only; historization of data is not required.
+- **Documentation**: Provide clear documentation of the data model to support both business stakeholders and analytics teams.
 
-#### 🧹 Data Quality  
-We have to clean and resolve data quality issues prior to analysis.  
+---
 
-#### 🔗 Integrations  
-The cleaned datasets are integrated using SQL joins across entities:  
+### BI: Analytics & Reporting (Data Analysis)
 
+#### Objective
+Develop SQL-based analytics to deliver detailed insights into:
+- **Customer Behavior**
+- **Product Performance**
+- **Sales Trends**
+
+These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
+
+
+## 📂 Repository Structure
 ```
-customers (1) ───< accounts
-customers (1) ───< transactions
-customers (1) ───< products
-branches  (1) ───< accounts
+data-warehouse-project/
+│
+├── datasets/                           # Raw datasets used for the project (ERP and CRM data)
+│
+├── docs/                               # Project documentation and architecture details
+│   ├── data_architecture.drawio        # Draw.io file shows the project's architecture
+│   ├── data_catalog.md                 # Catalog of datasets, including field descriptions and metadata
+│   ├── data_flow.drawio                # Draw.io file for the data flow diagram
+│   ├── data_models.drawio              # Draw.io file for data models (star schema)
+│   ├── naming-conventions.md           # Consistent naming guidelines for tables, columns, and files
+│
+├── scripts/                            # SQL scripts for ETL and transformations
+│   ├── bronze/                         # Scripts for extracting and loading raw data
+│   ├── silver/                         # Scripts for cleaning and transforming data
+│   ├── gold/                           # Scripts for creating analytical models
+│
+├── tests/                              # Test scripts and quality files
+│
+├── README.md                           # Project overview and instructions
+├── LICENSE                             # License information for the repository
+├── .gitignore                          # Files and directories to be ignored by Git
+└── requirements.txt                    # Dependencies and requirements for the project
 ```
-
-#### 🧭 Scope  
-The analysis focuses on:  
-- Customer retention and churn patterns  
-- Branch profitability and city-level performance  
-- Fraud and anomaly detection  
-- Credit risk exposure  
-- Product usage and cross-sell opportunities  
-
-#### 📚 Documentation  
-Key deliverables include:  
-- **SQL scripts** for cleaning, transformation, and aggregation  
-- **Python notebooks** for exploratory data analysis (EDA)  
-- **Power BI dashboard** showing KPIs, trends, and insights  
-- **Business recommendations report** summarizing findings  
-
 ---
 
-## 📊 BI: Analytics & Reporting (Data Analytics)
+## 🛡️ License
 
-### 🎯 Objective  
-Develop SQL-based analytics and Power BI dashboards to deliver detailed insights into:  
-- **Customer Behavior**  
-- **Product Performance**  
-- **Transaction Trends**  
+This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and share it with proper attribution.
 
-These insights empower stakeholders with key business metrics, enabling **strategic decision-making**, risk control, and targeted marketing.  
+## 🌟 About Me
 
----
+Hi there! I'm **Baraa Khatib Salkini**, also known as **Data With Baraa**. I’m an IT professional and passionate YouTuber on a mission to share knowledge and make working with data enjoyable and engaging!
 
-## 📜 Licence  
-This project is licensed under the [MIT Licence](LICENSE).  
-You are free to use, modify, and share this project with proper attribution.  
+Let's stay in touch! Feel free to connect with me on the following platforms:
 
----
-
-## 👩‍💻 About Me  
-
-Hi there, I’m **Mehinewe Kedewouli** 👋  
-I’m a **data analyst** who enjoys turning messy data into meaningful insights.  
-I work with tools like **SQL**, **Excel**, and **Power BI** to clean, analyze, and present data clearly.  
-I’m passionate about using data to solve real-world problems and help organizations make smarter, evidence-based decisions.  
+[![YouTube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=youtube&logoColor=white)](UCbaynMxFL_oJoUfS2SISGCg)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/baraa-khatib-salkini)
+[![Website](https://img.shields.io/badge/Website-000000?style=for-the-badge&logo=google-chrome&logoColor=white)](https://www.datawithbaraa.com)
+[![Newsletter](https://img.shields.io/badge/Newsletter-FF5722?style=for-the-badge&logo=substack&logoColor=white)](https://bit.ly/BaraaNewsletter)
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/baraasalkini)
+[![Join](https://img.shields.io/badge/Join-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@datawithbaraa)
