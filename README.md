@@ -106,6 +106,6 @@ I’m a Data Analyst, and I help organizations leverage their data to accelerate
 
 Let's stay in touch! Feel free to connect with me on the following platforms:
 
-[Youtube](https://www.youtube.com/@LeverageDataa)  
+[Youtube](https://www.flaticon.com/free-icon/youtube_400425)(https://www.youtube.com/@LeverageDataa)  
 [Linkedin](https://www.linkedin.com/in/mehinewe-kedewouli/)
 
