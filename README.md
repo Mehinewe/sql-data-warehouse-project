@@ -98,12 +98,16 @@ data-warehouse-project/
 
 This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and share it with proper attribution.
 
-## 🌟 About Me
+## 🗒️ Data Source & Attribution
+**Data Source**: Huge thank you to [Baraa Khatib Salkini](https://www.linkedin.com/in/baraa-khatib-salkini/) for breaking down complex concepts and making data learning practical and accessible.  
+**Note**: All analysis, data modeling, and visualizations are my own work.
 
-Hi there! I'm **Baraa Khatib Salkini**, also known as **Data With Baraa**. I’m an IT professional and passionate YouTuber on a mission to share knowledge and make working with data enjoyable and engaging!
+## 🌟 About Me
+Hi there, I’m Mehinewe Kedewouli 👋  
+I’m a Data Analyst, and I help organizations leverage their data to accelerate performance and growth.
 
 Let's stay in touch! Feel free to connect with me on the following platforms:
 
-[Youtube](https://www.youtube.com/@LeverageDataa)
+[Youtube](https://www.youtube.com/@LeverageDataa)  
 [Linkedin](https://www.linkedin.com/in/mehinewe-kedewouli/)
 
